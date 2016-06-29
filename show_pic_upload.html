@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="jquery.js"></script>
+</head>
+<body>
+     <label for="file"><img src="input.upload.png" style="width:90px;height:90px;" id="labelPic"></label>
+         <input type="file" name="file" id="file_upload" style="display:none;"/>
+     <input type="hidden" name="picData" id="hidden"/>
+
+     <script type="text/javascript">
+           /*function : show_pic_upload(pro1,pro2,pro3),
+             有3个参数,分别为label里的<img>,<input type="file">,<input type="hidden">三个的jq对象，
+             上传图片信息时，以"<input type="hidden">"的name为属性名*/
+          function show_pic_upload($labelPic,$file,$hidden){ 
+                //点击label触发图片加载
+                $labelPic.on("click",function(){
+                    $file.trigger("click");
+                    $file.on("change",changePic);
+                });
+                //图片改变
+                function changePic(){
+                   var file=$file[0].files[0];
+                   var fileReader=new FileReader();
+                  //将文件以Data URL形式读入页面
+                   fileReader.readAsDataURL(file);
+                   fileReader.onload=function(){
+                   $labelPic.attr("src",this.result);
+                   $hidden.val(encodeURI(this.result));
+                   }
+                }
+          }
+
+          show_pic_upload($("#labelPic"),$("#file_upload"),$("#hidden"));
+     </script>
+</body>
+</html>
